@@ -2,7 +2,7 @@
 
 This project show you the principal ways to parameterize several apps using docker.
 
-1. Docker build args
+1. Using Docker build args
 
 In this example we are going to generate new content at the end of a html file called index.html. For that in docker-compose file, you can specify values to pass on for ARG, in an args block
 
@@ -95,7 +95,7 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://1
 ```
 **You deploy the service app_2**
 
-## 2. Docker Compose
+## 2. Using Docker Compose
 
 It's possible to use docker-compose in order to use a more elegant solution. It allows us to scale it without building the containers firstly. In this case we are going to have the same service deployed
 
