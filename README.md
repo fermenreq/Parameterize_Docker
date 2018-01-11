@@ -65,7 +65,7 @@ c29210ad4635        solution1_app_1     "httpd-foreground"       6 seconds ago  
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'``` **c11db845081c**
 172.28.0.3
 ```
-- 1.4 Use Curl commands or explorer to see results:
+- 1.4 Use Curl commands or web explorer to see results:
 
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://172.28.0.3:80
@@ -99,7 +99,6 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://1
 
 It's possible to use docker-compose in order to use a more elegant solution. It allows us to scale it without building the containers firstly. In this case we are going to have the same service deployed
 
-
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# **docker-compose scale app=3 proxy=1**
 
 ```
@@ -107,17 +106,23 @@ Creating and starting solution2_app_1 ... done
 Creating and starting solution2_app_2 ... done
 Creating and starting solution2_app_3 ... done
 Creating and starting solution2_proxy_1 ... done
+```
 
+```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
 d8f6d94a906f        solution2_proxy     "/bin/sh -c 'service…"   3 seconds ago       Up 2 seconds        0.0.0.0:8080->80/tcp   solution2_proxy_1
 bd0c7c7b3698        solution2_app       "httpd-foreground"       6 seconds ago       Up 4 seconds        80/tcp, 5000/tcp       solution2_app_3
 c64b0f6506df        solution2_app       "httpd-foreground"       6 seconds ago       Up 3 seconds        80/tcp, 5000/tcp       solution2_app_2
 0bb5e95d491        solution2_app       "httpd-foreground"       6 seconds ago       Up 2 seconds        80/tcp, 5000/tcp       solution2_app_1
+```
 
+```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 0bb5e95d4914
 172.29.0.3
+```
 
+```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# curl http://172.29.0.3
 <html>
 	<head>
