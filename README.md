@@ -21,7 +21,7 @@ Example 1:
 ```
 ## Installation Steps:
  ```
- root@osboxes:/home/osboxes/Desktop/# git clone: https://github.com/fermenreq/Parameterize_Docker.init
+git clone: https://github.com/fermenreq/Parameterize_Docker.init
 ```
 
 1.1 Build the image
