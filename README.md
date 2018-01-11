@@ -66,11 +66,10 @@ c11db845081c        solution1_app_2    "httpd-foreground"       6 seconds ago   
 23c5a0c918b8        solution1_app_3     "httpd-foreground"       6 seconds ago       Up 3 seconds                     80/tcp                 solution1_app_3_1
 c29210ad4635        solution1_app_1     "httpd-foreground"       6 seconds ago       Up 4 seconds                     80/tcp                 solution1_app_1_1
 
-root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'``` **c11db845081c**
+root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' c11db845081c
 172.28.0.3
-
+```
 **1.4 Use Curl commands or web explorer to see results:**
-
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://172.28.0.3:80
 <html>
@@ -96,9 +95,7 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://1
 	  </address>
 	</body>
 </html>
-
 ```
-
 **You deploy the service app_2**
 
 **2. Using Docker Compose**
