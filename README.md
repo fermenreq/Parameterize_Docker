@@ -58,11 +58,11 @@ Creating solution1_proxy_1
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                           PORTS                  NAMES
 9e694042d56d        solution1_proxy     "/bin/sh -c 'service…"   4 seconds ago       Up 2 seconds                     0.0.0.0:8080->80/tcp   solution1_proxy_1
-**c11db845081c        solution1_app_2**     "httpd-foreground"       6 seconds ago       Up 4 seconds                     80/tcp                 solution1_app_2_1
+c11db845081c        solution1_app_2    "httpd-foreground"       6 seconds ago       Up 4 seconds                     80/tcp                 solution1_app_2_1
 23c5a0c918b8        solution1_app_3     "httpd-foreground"       6 seconds ago       Up 3 seconds                     80/tcp                 solution1_app_3_1
 c29210ad4635        solution1_app_1     "httpd-foreground"       6 seconds ago       Up 4 seconds                     80/tcp                 solution1_app_1_1
 
-root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' **c11db845081c**
+root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'``` **c11db845081c**
 172.28.0.3
 ```
 - 1.4 Use Curl commands or explorer to see results:
