@@ -1,0 +1,37 @@
+version: '2'
+
+services:
+  app_1:
+    build:
+      context:  ./app
+      dockerfile: Dockerfile
+      args:
+        - ARG1=You deploy the service app_1 using entrypoint commands
+    expose:
+      - "80"
+  app_2:
+    build:
+      context:  ./app
+      dockerfile: Dockerfile
+      args:
+        - ARG1=You deploy the service app_2 using entrypoint commands
+    expose:
+      - "80"
+  app_3:
+    build:
+      context:  ./app
+      dockerfile: Dockerfile
+      args:
+        - ARG1=You deploy the service app_3 using entrypoint commands
+    expose:
+      - "80"
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    links:
+      - app_1
+      - app_2
+      - app_3
