@@ -8,7 +8,7 @@ In this example we are going to generate new content at the end of a html file c
 
 Those ARG variables will not be available in containers started based on the built image without further work. If you want ARG entries to change and take effect, you need to build a new image. Probably you’ll need to manually delete any old ones.
 
-## Example 1:
+## Example:
 ```
  ./solution_1:
    ./app
@@ -113,7 +113,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 d8f6d94a906f        solution2_proxy     "/bin/sh -c 'service…"   3 seconds ago       Up 2 seconds        0.0.0.0:8080->80/tcp   solution2_proxy_1
 bd0c7c7b3698        solution2_app       "httpd-foreground"       6 seconds ago       Up 4 seconds        80/tcp, 5000/tcp       solution2_app_3
 c64b0f6506df        solution2_app       "httpd-foreground"       6 seconds ago       Up 3 seconds        80/tcp, 5000/tcp       solution2_app_2
-**0bb5e95d4914**        solution2_app       "httpd-foreground"       6 seconds ago       Up 2 seconds        80/tcp, 5000/tcp       solution2_app_1
+0bb5e95d491        solution2_app       "httpd-foreground"       6 seconds ago       Up 2 seconds        80/tcp, 5000/tcp       solution2_app_1
 
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 0bb5e95d4914
 172.29.0.3
