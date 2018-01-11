@@ -68,11 +68,9 @@ c29210ad4635        solution1_app_1     "httpd-foreground"       6 seconds ago  
 
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'``` **c11db845081c**
 172.28.0.3
-```
 
 **1.4 Use Curl commands or web explorer to see results:**
 
-```
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://172.28.0.3:80
 <html>
