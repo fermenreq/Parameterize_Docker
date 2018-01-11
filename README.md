@@ -28,7 +28,7 @@ Those ARG variables will not be available in containers started based on the bui
 git clone: https://github.com/fermenreq/Parameterize_Docker.init
 ```
 
-**  1.1 Build the image**
+ **1.1 Build the image**
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker-compose build --no-cache
 Building app_1
@@ -48,7 +48,7 @@ Get:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
 Get:2 http://security.debian.org jessie/updates/main amd64 Packages [605 kB]
 .....
 ```
-** 1.2 Deploy the image:**
+**1.2 Deploy the image:**
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker-compose up -d
 Creating solution1_app_1_1
@@ -57,7 +57,7 @@ Creating solution1_app_2_1
 Creating solution1_proxy_1
 
 ```
-** 1.3 Search the Containers IP addres: (i.e: service_web 2)**
+**1.3 Search the Containers IP addres: (i.e: service_web 2)**
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker ps -a
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                           PORTS                  NAMES
@@ -68,8 +68,8 @@ c29210ad4635        solution1_app_1     "httpd-foreground"       6 seconds ago  
 
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'``` **c11db845081c**
 172.28.0.3
-```
-** 1.4 Use Curl commands or web explorer to see results:**
+
+**1.4 Use Curl commands or web explorer to see results:**
 
 ```
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://172.28.0.3:80
@@ -155,7 +155,7 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# curl http
 
 ```
 
-** 3. Docker entrypoint**
+**3. Docker entrypoint**
 
 
 ( In progress. . . )
