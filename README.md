@@ -92,15 +92,17 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://1
 	  </address>
 	</body>
 </html>
-**You deploy the service app_2**
 ```
+**You deploy the service app_2**
 
 ## 2. Docker Compose
 
 It's possible to use docker-compose in order to use a more elegant solution. It allows us to scale it without building the containers firstly. In this case we are going to have the same service deployed
 
-```
+
 root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# **docker-compose scale app=3 proxy=1**
+
+```
 Creating and starting solution2_app_1 ... done
 Creating and starting solution2_app_2 ... done
 Creating and starting solution2_app_3 ... done
