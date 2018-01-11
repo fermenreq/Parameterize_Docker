@@ -72,6 +72,35 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# docker inspec
 
 **1.4 Use Curl commands or web explorer to see results:**
 
+```
+```
+root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://172.28.0.3:80
+<html>
+	<head>
+  		<title>
+		   Hello World Demonstration Document
+		</title>
+	 </head>
+ 	<body>
+	  <h1>
+	  	 Hello, Docker!
+	  </h1>
+	  <p>
+	   This is a minimal "hello docker" HTML document. It demonstrates the
+	   use of Docker build ARGS.
+	  </p>
+	  <p>
+	   See me: <a href="https://es.linkedin.com/in/fmendez1">https://es.linkedin.com/in/fmendez1</a>
+	  </p>
+	  <hr>
+	  <address>
+	   © <a href="http://github.com/fermenreq">Fernando Mendez Requena</a> (<a 		   href="mailto:fernando.mendez.external@atos.net">fernando.mendez.external@atos.net</a>) / 2018-01-10
+	  </address>
+	</body>
+</html>
+
+```
+
 **You deploy the service app_2**
 
 **2. Using Docker Compose**
