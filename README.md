@@ -12,7 +12,7 @@ In this example we are going to generate new content at the end of a html file c
 
 Those ARG variables will not be available in containers started based on the built image without further work. If you want ARG entries to change and take effect, you need to build a new image. Probably you’ll need to manually delete any old ones.
 
-## Example:
+## Example: Project folder
 ```
  ./solution_1:
    ./app
