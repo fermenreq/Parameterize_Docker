@@ -12,7 +12,7 @@ In this example we are going to generate new content at the end of a html file c
 
 Those ARG variables will not be available in containers started based on the built image without further work. If you want ARG entries to change and take effect, you need to build a new image. Probably you’ll need to manually delete any old ones.
 
-## Example: Project folder
+## Example: Project Tree
 ```
  ./solution_1:
    ./app
@@ -154,7 +154,30 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# curl http
 
 ```
 
-**3. Docker entrypoint**
+**3. Docker ENV**
+
+## Using environment variables in nginx configuration
+
+Out-of-the-box, nginx doesn’t support environment variables inside most configuration blocks. But envsubst may be used as a workaround if you need to generate your nginx configuration dynamically before nginx starts.
 
 
-( In progress. . . )
+# 3.1 up.sh
+
+```
+#!/bin/bash
+
+echo "killing all project containers:"
+docker rmi -f $(docker images)
+
+# variables defined from now on to be automatically exported:
+set -a
+source .env
+
+# To avoid substituting nginx-related variables, lets specify only the
+# variables that we will substitute with envsubst:
+NGINX_VARS='$WORKER_PROCESSES'
+envsubst "$NGINX_VARS" < ./nginx-template.conf > nginx.conf
+
+sudo docker-compose up -d
+```
+
