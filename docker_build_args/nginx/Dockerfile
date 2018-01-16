@@ -2,7 +2,10 @@
 # DOCKERFILE to build Nginx installed containers 
 ####################################################################
 
-FROM ubuntu:xenial
+ARG VERSION=xenial
+ARG PORT=80
+
+FROM ubuntu:$VERSION
 
 MAINTAINER fernando.mendez.external@atos.net
 
@@ -19,6 +22,6 @@ ADD nginx.conf /etc/nginx
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-EXPOSE 80
+EXPOSE $PORT
 
 CMD service nginx start

@@ -2,7 +2,11 @@
 # DOCKERFILE to build Nginx installed containers 
 ####################################################################
 
-FROM ubuntu:xenial
+#Setting some variables:
+
+ARG VERSION=xenial
+
+FROM ubuntu:$VERSION
 
 MAINTAINER fernando.mendez.external@atos.net
 

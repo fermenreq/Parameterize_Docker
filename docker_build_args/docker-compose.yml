@@ -6,15 +6,15 @@ services:
       context:  ./app
       dockerfile: Dockerfile
       args:
-        - ARG1=You deploy the service app_1 using entrypoint commands
-    expose:
+        - ARG1=You deploy the service app_1
+    expose:   
       - "80"
   app_2:
     build:
       context:  ./app
       dockerfile: Dockerfile
       args:
-        - ARG1=You deploy the service app_2 using entrypoint commands
+        - ARG1=You deploy the service app_2
     expose:
       - "80"
   app_3:
@@ -22,13 +22,15 @@ services:
       context:  ./app
       dockerfile: Dockerfile
       args:
-        - ARG1=You deploy the service app_3 using entrypoint commands
+        - ARG1=You deploy the service app_3
     expose:
       - "80"
   proxy:
     build:
       context:  ./nginx
       dockerfile: Dockerfile
+    environment:
+        - WORKER_PROCESSES=${WORKER_PROCESSES}
     ports:
       - "8080:80"
     links:

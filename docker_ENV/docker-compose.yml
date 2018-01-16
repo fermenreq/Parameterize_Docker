@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         - ARG1=You deploy the service app_1
-    expose:
+    expose:   
       - "80"
   app_2:
     build:
@@ -29,6 +29,8 @@ services:
     build:
       context:  ./nginx
       dockerfile: Dockerfile
+    environment:
+        - WORKER_PROCESSES=${WORKER_PROCESSES}
     ports:
       - "8080:80"
     links:
