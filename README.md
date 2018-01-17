@@ -239,7 +239,7 @@ The goal of this section is the same you read before (3. docker env file), but t
 
 In this case we are going to use again **envsubst** but in another way:
 
-**4.1 docker-compose **
+**4.1 docker-compose**
 
 ```
 proxy:
