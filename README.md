@@ -154,15 +154,13 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# curl http
 
 ```
 
-**3. Docker ENV**
+## 3.Docker ENV
 
-## Using environment variables in nginx configuration
+**Using environment variables in nginx configuration**
 
-Out-of-the-box, nginx doesn’t support environment variables inside most configuration blocks. But envsubst may be used as a workaround if you need to generate your nginx configuration dynamically before nginx starts.
+Out-of-the-box, nginx doesn’t support environment variables inside most configuration blocks. But envsubst may be used as a workaround if you need to generate your nginx configuration dynamically before nginx starts. For that I create an script called **up.sh**
 
-
-# 3.1 up.sh
-
+**3.1 up.sh**
 ```
 #!/bin/bash
 
@@ -180,4 +178,57 @@ envsubst "$NGINX_VARS" < ./nginx-template.conf > nginx.conf
 
 sudo docker-compose up -d
 ```
+**3.2 nginx-template.conf**
 
+```
+worker_processes ${WORKER_PROCESSES};
+events { worker_connections 1024; }
+http {
+    sendfile on;
+    upstream app_servers {
+        server app_1:80;
+        server app_2:80;
+        server app_3:80;
+    }
+    server {
+        listen 8080;
+        location / {
+            proxy_pass         http://app_servers;
+            proxy_redirect     off;
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+        }
+    }
+}
+
+```
+To set up the ```${WORKER_PROCESSES} ``` we are declare it on .env file
+
+**3.3 .env**
+
+```
+#nginx server config
+WORKER_PROCESSES=4
+```
+
+Finaly we set up our **docker-compose file** that allow us for variable substitution:
+
+```
+.....
+
+ proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    environment:
+        - WORKER_PROCESSES=${WORKER_PROCESSES}
+    ports:
+      - "8080:80"
+    links:
+      - app_1
+      - app_2
+      - app_3
+
+```
