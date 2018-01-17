@@ -154,7 +154,7 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# curl http
 
 ```
 
-## 3.Docker ENV
+## 3.Docker ENV file
 
 **Using environment variables in nginx configuration**
 
@@ -232,3 +232,7 @@ Finaly we set up our **docker-compose file** that allow us for variable substitu
       - app_3
 
 ```
+
+## 4.Docker ENV (without external .env file)
+
+(in progress)
