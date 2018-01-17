@@ -235,4 +235,70 @@ Finaly we set up our **docker-compose file** that allow us for variable substitu
 
 ## 4.Docker ENV (without external .env file)
 
-(in progress)
+The goal of this section is the same you read before (3. docker env file), but the difference is: Here we are going to use **Enviroment variables** but without an external .env file.
+
+In this case we are going to use again **envsubst** but in another way:
+
+**4.1 docker-compose **
+
+```
+proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    environment:
+        - WORKER_PROCESSES=4
+        - WORKER_CONNECTIONS=1024
+        - PORT_LISTEN=8080
+        - SERVICE_APP1=APP1
+        - SERVICE_APP2=APP2
+        - SERVICE_APP3=APP3
+        - SERVICE_PORT=80
+    ports:
+      - "8080:80"
+    links:
+      - app_1
+      - app_2
+- app_3
+
+```
+**4.2 DockerFile**
+
+We use **envsubst** here
+
+```
+   ...
+   ...
+EXPOSE $PORT
+RUN echo "envsubst < ./nginx/nginx-template.conf > ./nginx/nginx.conf && nginx -g 'daemon off;'"
+CMD service nginx start
+
+```
+**4.3 nginx-conf file**
+
+```
+worker_processes ${WORKER_PROCESSES};
+events { worker_connections ${WORKER_CONNECTIONS}; }
+http {
+    sendfile on;
+    upstream app_servers {
+        server ${SERVICE_APP1}:${SERVICE_PORT};
+        server ${SERVICE_APP2}:${SERVICE_PORT};
+        server ${SERVICE_APP3}:${SERVICE_PORT};
+    }
+    server {
+        listen ${PORT_LISTEN};
+        location / {
+            proxy_pass         http://app_servers;
+            proxy_redirect     off;
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+        }
+    }
+}
+
+```
+
+
