@@ -347,7 +347,7 @@ services:
 
 ```
 
-** Docker Swarm Init
+**Docker Swarm Init**
 
 ```
 root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
