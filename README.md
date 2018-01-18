@@ -300,7 +300,7 @@ http {
 }
 
 ```
-## 5. Docker-compose limit resources
+## 5. Docker-compose limit resources: Docker Swarm
 
 The following topics describe available options to set resource constraints on **services or containers in a swarm**. Docker compose format must be: **version:'3'**
 
@@ -347,9 +347,27 @@ services:
 
 ```
 
+** Docker Swarm Init
+
+```
+root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
+Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3hghzmfs8ukbjr0nlr0fma20cb4hglam0xfnzem026uejtjzkb-21k7yg02rl95vzvx713334im2 10.0.2.15:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+```
+
 ## Bibliography
+
 [Docker Bibliography](https://docs.docker.com/)
+[docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
+
 
 ## Maintainer
+
 Fernando Méndez Requena - fernando.mendez.external@atos.net
 
