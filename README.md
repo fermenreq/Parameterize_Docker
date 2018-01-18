@@ -300,5 +300,56 @@ http {
 }
 
 ```
+## 5. Docker-compose limit resources
 
+The following topics describe available options to set resource constraints on **services or containers in a swarm**. Docker compose format must be: **version:'3'**
+
+
+**5.1 Requirements**
+
+```
+root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/prueba# docker-compose --version
+docker-compose version 1.18.0, build 8dd22a9
+```
+ If you want to set resource constraints on non swarm deployments, use [Compose file format version 2 CPU, memory,and other resource options](https://docs.docker.com/compose/compose-file/compose-file-v2/#cpu-and-other-resources)
+
+**5.2 docker-compose**
+
+In this general example, the nginx service is constrained to use **no more than 50M of memory and 0.50 (50%) of available processing time (CPU)**, and has **20M of memory and 0.25 CPU time reserved** (as always available to it).
+
+
+```
+version: '3'
+
+services:
+  app:
+    build:
+      context:  ./app
+      dockerfile: Dockerfile
+    expose:
+      - "5000"
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    links:
+      - app
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+
+```
+
+## Bibliography
+[Docker Bibliography](https://docs.docker.com/)
+
+## Maintainer
+Fernando Méndez Requena - fernando.mendez.external@atos.net
 
