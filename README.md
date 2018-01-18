@@ -379,7 +379,7 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 
 - [Docker Bibliography](https://docs.docker.com/)
 - [Docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
-- [Docker machine] (https://docs.docker.com/machine/install-machine/#how-to-uninstall-docker-machine)
+- [Docker machine](https://docs.docker.com/machine/install-machine/#how-to-uninstall-docker-machine)
 
 ## Authors
 
