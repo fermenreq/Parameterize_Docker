@@ -313,7 +313,20 @@ docker-compose version 1.18.0, build 8dd22a9
 ```
  If you want to set resource constraints on non swarm deployments, use [Compose file format version 2 CPU, memory,and other resource options](https://docs.docker.com/compose/compose-file/compose-file-v2/#cpu-and-other-resources)
 
-**5.2 docker-compose**
+```
+docker-machine version 0.13.0, build 9ba6da9
+```
+
+In this case we are going to create two VM to populate the swarm:
+
+```
+docker-machine create --driver virtualbox myvm1
+docker-machine create --driver virtualbox myvm2
+
+```
+
+
+**5.3 docker-compose**
 
 In this general example, the nginx service is constrained to use **no more than 50M of memory and 0.50 (50%) of available processing time (CPU)**, and has **20M of memory and 0.25 CPU time reserved** (as always available to it).
 
@@ -361,11 +374,13 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 
 ```
 
+
+
 ## Bibliography
 
 - [Docker Bibliography](https://docs.docker.com/)
-- [docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
-
+- [Docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
+- [Docker machine] (https://docs.docker.com/machine/install-machine/#how-to-uninstall-docker-machine)
 
 ## Maintainer
 
