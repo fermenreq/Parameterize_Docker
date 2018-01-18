@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context:  ./app
+      dockerfile: Dockerfile
+    expose:
+      - "5000"
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    links:
+      - app
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
