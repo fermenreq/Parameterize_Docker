@@ -373,8 +373,7 @@ To add a worker to this swarm, run the following command:
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 
 ```
-
-
+(...IN PROGRESS...)
 
 ## Bibliography
 
@@ -382,7 +381,7 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 - [Docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
 - [Docker machine] (https://docs.docker.com/machine/install-machine/#how-to-uninstall-docker-machine)
 
-## Maintainer
+## Authors
 
 Fernando Méndez Requena - fernando.mendez.external@atos.net
 
