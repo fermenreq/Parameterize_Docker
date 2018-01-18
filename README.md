@@ -1,12 +1,12 @@
 # Parameterize Docker-compose and Dockerfile
 
-This project show you the principal ways to parameterize several apps using docker.
+This project show you the principal ways to parameterize several apps using docker. Dont forget that you can combine all options together.
 
 
 ![alt text](https://github.com/fermenreq/Parameterize_Docker/blob/master/docker_nginx.png)
 
 
-**1. Using Docker build args**
+## 1. Using Docker build args
 
 In this example we are going to generate new content at the end of a html file called index.html. For that in docker-compose file, you can specify values to pass on for ARG, in an args block
 
@@ -98,7 +98,7 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_1# curl http://1
 ```
 **You deploy the service app_2**
 
-**2. Using Docker Compose**
+## 2. Using Docker Compose
 
 It's possible to use docker-compose in order to use a more elegant solution. It allows us to scale it without building the containers firstly. In this case we are going to have the same service deployed
 
@@ -154,7 +154,7 @@ root@osboxes:/home/osboxes/Desktop/Parameterize_Docker/solution_2/app# curl http
 
 ```
 
-## 3.Docker ENV file
+## 3.Using docker-compose env file
 
 **Using environment variables in nginx configuration**
 
@@ -235,4 +235,139 @@ Finaly we set up our **docker-compose file** that allow us for variable substitu
 
 ## 4.Docker ENV (without external .env file)
 
-(in progress)
+The goal of this section is the same you read before (3. docker env file), but the difference is: Here we are going to use **Enviroment variables** but without an external .env file.
+
+In this case we are going to use again **envsubst** but in another way:
+
+**4.1 docker-compose**
+
+```
+proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    environment:
+        - WORKER_PROCESSES=4
+        - WORKER_CONNECTIONS=1024
+        - PORT_LISTEN=8080
+        - SERVICE_APP1=APP1
+        - SERVICE_APP2=APP2
+        - SERVICE_APP3=APP3
+        - SERVICE_PORT=80
+    ports:
+      - "8080:80"
+    links:
+      - app_1
+      - app_2
+- app_3
+
+```
+**4.2 DockerFile**
+
+We use **envsubst** here
+
+```
+   ...
+   ...
+EXPOSE $PORT
+RUN echo "envsubst < ./nginx/nginx-template.conf > ./nginx/nginx.conf && nginx -g 'daemon off;'"
+CMD service nginx start
+
+```
+**4.3 nginx-conf file**
+
+```
+worker_processes ${WORKER_PROCESSES};
+events { worker_connections ${WORKER_CONNECTIONS}; }
+http {
+    sendfile on;
+    upstream app_servers {
+        server ${SERVICE_APP1}:${SERVICE_PORT};
+        server ${SERVICE_APP2}:${SERVICE_PORT};
+        server ${SERVICE_APP3}:${SERVICE_PORT};
+    }
+    server {
+        listen ${PORT_LISTEN};
+        location / {
+            proxy_pass         http://app_servers;
+            proxy_redirect     off;
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+        }
+    }
+}
+
+```
+## 5. Docker-compose limit resources: Docker Swarm
+
+The following topics describe available options to set resource constraints on **services or containers in a swarm**. Docker compose format must be: **version:'3'**
+
+
+**5.1 Requirements**
+
+```
+root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/prueba# docker-compose --version
+docker-compose version 1.18.0, build 8dd22a9
+```
+ If you want to set resource constraints on non swarm deployments, use [Compose file format version 2 CPU, memory,and other resource options](https://docs.docker.com/compose/compose-file/compose-file-v2/#cpu-and-other-resources)
+
+**5.2 docker-compose**
+
+In this general example, the nginx service is constrained to use **no more than 50M of memory and 0.50 (50%) of available processing time (CPU)**, and has **20M of memory and 0.25 CPU time reserved** (as always available to it).
+
+
+```
+version: '3'
+
+services:
+  app:
+    build:
+      context:  ./app
+      dockerfile: Dockerfile
+    expose:
+      - "5000"
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    links:
+      - app
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+
+```
+
+**Docker Swarm Init**
+
+```
+root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
+Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3hghzmfs8ukbjr0nlr0fma20cb4hglam0xfnzem026uejtjzkb-21k7yg02rl95vzvx713334im2 10.0.2.15:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+```
+
+## Bibliography
+
+- [Docker Bibliography](https://docs.docker.com/)
+- [docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
+
+
+## Maintainer
+
+Fernando Méndez Requena - fernando.mendez.external@atos.net
+
