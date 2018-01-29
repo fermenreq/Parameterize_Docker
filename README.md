@@ -317,13 +317,20 @@ docker-compose version 1.18.0, build 8dd22a9
 docker-machine version 0.13.0, build 9ba6da9
 ```
 
-In this case we are going to create two VM to populate the swarm:
+In this case we are going to create one VM to populate the swarm:
+
+**Docker Swarm Init**
 
 ```
-docker-machine create --driver virtualbox myvm1
-docker-machine create --driver virtualbox myvm2
+root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
+Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
+
+To add a worker to this swarm, run the following command:
+    docker swarm join --token SWMTKN-1-2b98vyjc3y34og500h22p226ibi4ow3g30w13bbdn9jaeavjcb-el0kt3gux5ohaal6nyg77o851 10.0.2.5:2377
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 
 ```
+
 
 
 **5.3 docker-compose**
@@ -360,20 +367,9 @@ services:
 
 ```
 
-**Docker Swarm Init**
 
-```
-root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
-Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
 
-To add a worker to this swarm, run the following command:
 
-    docker swarm join --token SWMTKN-1-3hghzmfs8ukbjr0nlr0fma20cb4hglam0xfnzem026uejtjzkb-21k7yg02rl95vzvx713334im2 10.0.2.15:2377
-
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
-
-```
-(...IN PROGRESS...)
 
 ## Bibliography
 
