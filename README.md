@@ -322,12 +322,11 @@ In this case we are going to create one VM to populate the swarm:
 **Docker Swarm Init**
 
 ```
-[root@osboxes Desktop]# docker swarm init --advertise-addr 192.168.1.36:2800
-Swarm initialized: current node (gm636thwyytuvorylyuvfxtmx) is now a manager.
+Swarm initialized: current node (ju1ilhm35iifbsv8hhm914myj) is now a manager.
 
 To add a worker to this swarm, run the following command:
 
-    docker swarm join --token SWMTKN-1-3jeeyag3pss689t3sf5m1bk87twqk33i3hccrqigru121vkjuw-3k7vwtjsxejbqev2ra93jg31l 192.168.1.36:2800
+    docker swarm join --token SWMTKN-1-1yqj4l6w6ucfm8tbvwb4uvbc5a5w825czcwemf2tyuwt4wqe6j-207dh3l5x1ocg9vbkhh407yk0 192.168.1.35:2377
 
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 
