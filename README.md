@@ -324,10 +324,12 @@ In this case we are going to create one VM to populate the swarm:
 ```
 root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
 Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
-
 To add a worker to this swarm, run the following command:
-    docker swarm join --token SWMTKN-1-2b98vyjc3y34og500h22p226ibi4ow3g30w13bbdn9jaeavjcb-el0kt3gux5ohaal6nyg77o851 10.0.2.5:2377
+
+    docker swarm join --token SWMTKN-1-3rwk9o1ztibk5arb7jdsuxxc6819tboookfevudvt4n6hqxfqs-8gss9dz0a5tt8fmcoin0d302n 192.168.1.35:2377
+
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
 
 ```
 
