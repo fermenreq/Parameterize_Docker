@@ -326,7 +326,7 @@ root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-co
 Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
 To add a worker to this swarm, run the following command:
 
-    docker swarm join --token SWMTKN-1-3rwk9o1ztibk5arb7jdsuxxc6819tboookfevudvt4n6hqxfqs-8gss9dz0a5tt8fmcoin0d302n 192.168.1.35:2377
+        docker swarm join --token SWMTKN-1-3cuv17hjxnnbjm5i0guo4o1pzji31cnx9k2kx9exvsv7p6pbjx-dbamwkdtfv2h6ti9c4t348ljk 192.168.1.36:2800
 
 To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 
