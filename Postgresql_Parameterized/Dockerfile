@@ -28,7 +28,8 @@ ADD postgresql-template.conf ./db
 
 RUN cd /etc/postgresql/9.3/main  && \
     cp postgresql.conf ./db && \
-    echo "envsubst < postgresql-template.conf > ./db/postgresql.conf"
+    echo "envsubst < postgresql-template.conf > ./db/postgresql.conf" && \
+    echo ./db/postgresql.conf
     
 WORKDIR /docker-entrypoint-initdb.d/
 
