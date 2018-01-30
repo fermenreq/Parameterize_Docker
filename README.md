@@ -300,7 +300,7 @@ http {
 }
 
 ```
-## 5. Docker-compose limit resources: Docker Swarm
+## 5. Docker-compose limit resources: Docker Swarm (In progress....)
 
 The following topics describe available options to set resource constraints on **services or containers in a swarm**. Docker compose format must be: **version:'3'**
 
@@ -332,8 +332,6 @@ To add a manager to this swarm, run 'docker swarm join-token manager' and follow
 
 
 ```
-
-
 
 **5.3 docker-compose**
 
@@ -369,6 +367,31 @@ services:
 
 ```
 
+
+# 6.How to customize the configuration file of the official PostgreSQL Docker image?
+
+You can put your custom **postgresql.conf** in a temporary file inside the container, and overwrite the default configuration at runtime.
+
+To do that:
+
+We are going to copy our custom **postgresql.conf** inside the container. At runtime, the container will execute the script inside **/docker-entrypoint-initdb.d/** and overwrite the default configuration with yout **custom one**.
+
+**Dockerfile**
+ 
+ ```
+ FROM postgres:9.6
+
+ COPY postgresql.conf      /tmp/postgresql.conf
+ COPY updateConfig.sh      /docker-entrypoint-initdb.d/_updateConfig.sh
+ ```
+
+**UpdateConfig.sh**
+
+```
+#!/usr/bin/env bash
+
+cat /tmp/postgresql.conf > /var/lib/postgresql/data/postgresql.conf
+```
 
 
 
