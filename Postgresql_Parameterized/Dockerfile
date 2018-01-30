@@ -24,10 +24,10 @@ RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.co
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
 
-ADD postgresql-template.conf /db
+ADD postgresql-template.conf ./db
 
 RUN cd /etc/postgresql/9.3/main  && \
-    COPY postgresql.conf /etc/postgresql/9.3/main \
+    cp postgresql.conf ./db && \
     echo "envsubst < postgresql-template.conf > ./db/postgresql.conf"
     
 WORKDIR /docker-entrypoint-initdb.d/
