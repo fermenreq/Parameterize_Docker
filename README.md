@@ -300,7 +300,7 @@ http {
 }
 
 ```
-## 5. Docker-compose limit resources: Docker Swarm
+## 5. Docker-compose limit resources: Docker Swarm (In progress....)
 
 The following topics describe available options to set resource constraints on **services or containers in a swarm**. Docker compose format must be: **version:'3'**
 
@@ -313,7 +313,27 @@ docker-compose version 1.18.0, build 8dd22a9
 ```
  If you want to set resource constraints on non swarm deployments, use [Compose file format version 2 CPU, memory,and other resource options](https://docs.docker.com/compose/compose-file/compose-file-v2/#cpu-and-other-resources)
 
-**5.2 docker-compose**
+```
+docker-machine version 0.13.0, build 9ba6da9
+```
+
+In this case we are going to create one VM to populate the swarm:
+
+**Docker Swarm Init**
+
+```
+Swarm initialized: current node (ju1ilhm35iifbsv8hhm914myj) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-1yqj4l6w6ucfm8tbvwb4uvbc5a5w825czcwemf2tyuwt4wqe6j-207dh3l5x1ocg9vbkhh407yk0 192.168.1.35:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+
+```
+
+**5.3 docker-compose**
 
 In this general example, the nginx service is constrained to use **no more than 50M of memory and 0.50 (50%) of available processing time (CPU)**, and has **20M of memory and 0.25 CPU time reserved** (as always available to it).
 
@@ -347,27 +367,96 @@ services:
 
 ```
 
-**Docker Swarm Init**
+
+# 6. How to customize the configuration file of the official PostgreSQL Docker image?
+
+## 6.1 Replacing custom configuration files 
+
+You can put your custom **postgresql.conf** in a temporary file inside the container, and overwrite the default configuration at runtime.
+
+To do that:
+
+We are going to copy our custom **postgresql-template.conf** setting up some variables inside the container using **envsubst** script.
+
+**Dockerfile:**
+ 
+```
+FROM ubuntu
+
+MAINTAINER  Fernando Mendez Requena <fernando.mendez.external@atos.net>
+
+# Add the PostgreSQL PGP key to verify their Debian packages.
+# It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
+# Add PostgreSQL's repository. It contains the most recent stable release
+#     of PostgreSQL, ``9.3``.
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+# Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
+#  There are some warnings (in red) that show up during the build. You can hide
+#  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
+
+
+# Adjust PostgreSQL configuration so that remote connections to the
+# database are possible.
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
+
+# And add ``listen_addresses`` to ``/etc/postgresql/9.3/main/postgresql.conf``
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
+
+
+ADD postgresql-template.conf /db
+
+RUN cd /etc/postgresql/9.3/main  && \
+    COPY postgresql.conf /etc/postgresql/9.3/main \
+    echo "envsubst < postgresql-template.conf > ./db/postgresql.conf"
+    
+WORKDIR /docker-entrypoint-initdb.d/
+
+ADD init-db.sql /docker-entrypoint-initdb.d
+
+# Expose the PostgreSQL port
+EXPOSE 5432
+ ```
+ 
+**Postgresql-template.conf:**
+```
+...
+...
+max_connections = ${max_connections}
+shared_buffers = ${shared_buffers}
+...
+...
+```
+
+**Docker-compose:**
 
 ```
-root@osboxes:/home/osboxes/Desktop/Proyectos/STAMP/Parameterize_Docker/docker-compose-memory# docker swarm init
-Swarm initialized: current node (lz6c1l9noczhvaxw34s8n73dj) is now a manager.
+version: '2'
 
-To add a worker to this swarm, run the following command:
-
-    docker swarm join --token SWMTKN-1-3hghzmfs8ukbjr0nlr0fma20cb4hglam0xfnzem026uejtjzkb-21k7yg02rl95vzvx713334im2 10.0.2.15:2377
-
-To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
-
+services:
+  db:
+    build: ./db
+    environment:
+      - POSTGRES_DB=......
+      - POSTGRES_USER=......
+      - POSTGRES_PASSWORD=...... 
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - max_connections=500
+      - shared_buffers=256MB
 ```
+
+
 
 ## Bibliography
 
 - [Docker Bibliography](https://docs.docker.com/)
-- [docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
+- [Docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
+- [Docker machine](https://docs.docker.com/machine/install-machine/#how-to-uninstall-docker-machine)
 
-
-## Maintainer
+## Authors
 
 Fernando Méndez Requena - fernando.mendez.external@atos.net
 
