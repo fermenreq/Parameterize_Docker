@@ -370,6 +370,8 @@ services:
 
 # 6.How to customize the configuration file of the official PostgreSQL Docker image?
 
+## 6.1 Replacing custom configuration files 
+
 You can put your custom **postgresql.conf** in a temporary file inside the container, and overwrite the default configuration at runtime.
 
 To do that:
