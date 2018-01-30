@@ -31,10 +31,9 @@ ADD postgresql-template.conf $DIR_DB
 
 RUN cd /etc/postgresql/9.3/main && \
     chmod 700 postgresql.conf && \  
-    echo "envsubst < $DIR_DB/postgresql-template.conf > ./postgresql.conf" && \
-    cp postgresql.conf $DIR_DB
+    echo "envsubst < $DIR_DB/postgresql-template.conf > ./postgresql.conf"
     
-#ADD init-db.sql /docker-entrypoint-initdb.d
+ADD init-db.sql /docker-entrypoint-initdb.d
 
 #Expose the PostgreSQL port
-#EXPOSE 5432
+EXPOSE 5432
