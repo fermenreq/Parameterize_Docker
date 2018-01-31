@@ -3,8 +3,6 @@
 This project show you the principal ways to parameterize several apps using docker. Dont forget that you can combine all options together.
 
 
-![alt text](https://github.com/fermenreq/Parameterize_Docker/blob/master/docker_nginx.png)
-
 
 ## 1. Using Docker build args
 
