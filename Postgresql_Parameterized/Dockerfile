@@ -29,8 +29,9 @@ WORKDIR $DIR_DB
 USER postgres
 ADD init-db.sql $DIR_DB
 
-RUN /etc/init.d/postgresql start && \
-    psql -a -f init-db.sql
+RUN service postgresql start && \
+    psql -a -f init-db.sql && \
+    service postgresql stop
 
 ADD postgresql-template.conf $DIR_DB
 
@@ -38,10 +39,14 @@ RUN cd /etc/postgresql/9.3/main && \
     chmod 700 postgresql.conf && \  
     echo "envsubst < $DIR_DB/postgresql-template.conf > ./postgresql.conf"
    
-WORKDIR /docker-entrypoint-initdb.d/
-ADD init-db.sql /docker-entrypoint-initdb.d
+#WORKDIR /docker-entrypoint-initdb.d/
+#ADD init-db.sql /docker-entrypoint-initdb.d
+
 EXPOSE 5432
+
+#COPY start.sh /$DIR_DB/start.sh
+
+#CMD $DIR_DB/start.sh
 
 # Set the default command to run when starting the container
 CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
-
