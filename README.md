@@ -434,6 +434,7 @@ CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main
 max_connections = ${max_connections}
 shared_buffers = ${shared_buffers}
 port = ${port}
+max_files_per_process=${max_files_per_process}
 ...
 ...
 ```
@@ -447,13 +448,11 @@ services:
   db:
     build: ./db
     environment:
-      - POSTGRES_DB=......
-      - POSTGRES_USER=......
-      - POSTGRES_PASSWORD=...... 
-      - PGDATA=/var/lib/postgresql/data/pgdata
+       ......
       - max_connections=500
       - shared_buffers=256
       - port=5432
+      - max_files_per_process=1200
 ```
 
 
