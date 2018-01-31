@@ -376,15 +376,74 @@ You can put your custom **postgresql.conf** in a temporary file inside the conta
 
 To do that:
 
-We are going to copy our custom **postgresql-template.conf** inside the container using **envsubst** script.
+We are going to copy our custom **postgresql-template.conf** setting up some variables inside the container using **envsubst** script.
 
 **Dockerfile**
  
  ```
  
+FROM ubuntu
+
+MAINTAINER  Fernando Mendez Requena <fernando.mendez.external@atos.net>
+
+# Add the PostgreSQL PGP key to verify their Debian packages.
+# It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
+# Add PostgreSQL's repository. It contains the most recent stable release
+#     of PostgreSQL, ``9.3``.
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+# Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
+#  There are some warnings (in red) that show up during the build. You can hide
+#  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
+
+
+# Adjust PostgreSQL configuration so that remote connections to the
+# database are possible.
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
+
+# And add ``listen_addresses`` to ``/etc/postgresql/9.3/main/postgresql.conf``
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
+
+# Add postgresql.conf
+RUN cd /etc/postgresql/9.3/main  && \
+    echo "envsubst < ./db/postgresql-template.conf > ./etc/postgresql/9.3/main/postgresql.conf" \
+    ADD ./etc/postgresql/9.3/main/postgresql.conf ./db
+    
+WORKDIR /docker-entrypoint-initdb.d/
+
+ADD init-db.sql /docker-entrypoint-initdb.d
+
+# Expose the PostgreSQL port
+EXPOSE 5432
+ 
  ```
+** Postgresql-template.conf**
+...
+...
+max_connections = ${max_connections}
+shared_buffers = ${shared_buffers}
+...
+...
 
+**Docker-compose**
 
+```
+version: '2'
+
+services:
+  db:
+    build: ./db
+    environment:
+      - POSTGRES_DB=......
+      - POSTGRES_USER=......
+      - POSTGRES_PASSWORD=...... 
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - max_connections=500
+      - shared_buffers=256MB
+```
 
 
 
