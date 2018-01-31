@@ -257,7 +257,7 @@ proxy:
     links:
       - app_1
       - app_2
-- app_3
+      - app_3
 
 ```
 **4.2 DockerFile**
@@ -433,6 +433,7 @@ CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main
 ...
 max_connections = ${max_connections}
 shared_buffers = ${shared_buffers}
+port = ${port}
 ...
 ...
 ```
@@ -452,6 +453,7 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - max_connections=500
       - shared_buffers=256
+      - port=5432
 ```
 
 
