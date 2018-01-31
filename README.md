@@ -368,7 +368,7 @@ services:
 ```
 
 
-# 6.How to customize the configuration file of the official PostgreSQL Docker image?
+# 6. How to customize the configuration file of the official PostgreSQL Docker image?
 
 ## 6.1 Replacing custom configuration files 
 
@@ -376,24 +376,14 @@ You can put your custom **postgresql.conf** in a temporary file inside the conta
 
 To do that:
 
-We are going to copy our custom **postgresql.conf** inside the container. At runtime, the container will execute the script inside **/docker-entrypoint-initdb.d/** and overwrite the default configuration with yout **custom one**.
+We are going to copy our custom **postgresql-template.conf** inside the container using **envsubst** script.
 
 **Dockerfile**
  
  ```
- FROM postgres:9.6
-
- COPY postgresql.conf      /tmp/postgresql.conf
- COPY updateConfig.sh      /docker-entrypoint-initdb.d/_updateConfig.sh
+ 
  ```
 
-**UpdateConfig.sh**
-
-```
-#!/usr/bin/env bash
-
-cat /tmp/postgresql.conf > /var/lib/postgresql/data/postgresql.conf
-```
 
 
 
