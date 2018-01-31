@@ -15,7 +15,6 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc
 #  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3 gedit
 
-
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
@@ -27,16 +26,22 @@ ENV DIR_DB=/db
 RUN mkdir $DIR_DB
 WORKDIR $DIR_DB
 
+USER postgres
+ADD init-db.sql $DIR_DB
+
+RUN /etc/init.d/postgresql start && \
+    psql -a -f init-db.sql
+
 ADD postgresql-template.conf $DIR_DB
 
 RUN cd /etc/postgresql/9.3/main && \
     chmod 700 postgresql.conf && \  
     echo "envsubst < $DIR_DB/postgresql-template.conf > ./postgresql.conf"
-
+   
 WORKDIR /docker-entrypoint-initdb.d/
 ADD init-db.sql /docker-entrypoint-initdb.d
 EXPOSE 5432
 
+# Set the default command to run when starting the container
+CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main", "-c", "config_file=/etc/postgresql/9.3/main/postgresql.conf"]
 
-CMD service postgresql restart
-    
