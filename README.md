@@ -378,7 +378,7 @@ To do that:
 
 We are going to copy our custom **postgresql-template.conf** setting up some variables inside the container using **envsubst** script.
 
-**Dockerfile**
+**Dockerfile:**
  
  ```
  
@@ -420,15 +420,17 @@ ADD init-db.sql /docker-entrypoint-initdb.d
 EXPOSE 5432
  
  ```
-** Postgresql-template.conf**
+** Postgresql-template.conf:**
+```
 ...
 ...
 max_connections = ${max_connections}
 shared_buffers = ${shared_buffers}
 ...
 ...
+```
 
-**Docker-compose**
+**Docker-compose:**
 
 ```
 version: '2'
