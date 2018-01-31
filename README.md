@@ -452,7 +452,7 @@ services:
       - POSTGRES_PASSWORD=...... 
       - PGDATA=/var/lib/postgresql/data/pgdata
       - max_connections=500
-      - shared_buffers=256MB
+      - shared_buffers=256
 ```
 
 
