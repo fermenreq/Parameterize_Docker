@@ -456,14 +456,33 @@ services:
 ```
 
 
+# 7. Tunning your Apache web server
+## 7.1 Replacing custom configuration files 
+You can put your custom **.conf** in a temporary file inside the container, and overwrite the default configuration at runtime.
+
+## 7.2 Customize the Apache worker directives as you need
+In this case we are setting up the following vars that belong to: **mpm_prefork.conf** and **mpm_worker.conf** in ```/etc/apache2/mods-available```. We are still using envsubst
+
+```
+      - StartServers=2
+      - MinSpareThreads=25
+      - MaxSpareThreads=75
+      - ThreadLimit=64
+      - ThreadsPerChild=25
+      - MaxRequestWorkers=150
+      - MaxConnectionsPerChild=0
+      - MinSpareServers=5
+      - MaxSpareServers=10
+
+```
+[See the steps below](https://linode.com/docs/web-servers/apache-tips-and-tricks/tuning-your-apache-server/)
+
 
 ## Bibliography
-
 - [Docker Bibliography](https://docs.docker.com/)
 - [Docker Swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/#open-protocols-and-ports-between-the-hosts)
 - [Docker machine](https://docs.docker.com/machine/install-machine/#how-to-uninstall-docker-machine)
+- [Apache Tuning](http://dasunhegoda.com/configure-apache-multi-processing-modules-mpms/531/)
 
 ## Authors
-
 Fernando Méndez Requena - fernando.mendez.external@atos.net
-
