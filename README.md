@@ -257,7 +257,7 @@ proxy:
     links:
       - app_1
       - app_2
-- app_3
+      - app_3
 
 ```
 **4.2 DockerFile**
@@ -410,8 +410,9 @@ WORKDIR $DIR_DB
 USER postgres
 ADD init-db.sql $DIR_DB
 
-RUN /etc/init.d/postgresql start && \
-    psql -a -f init-db.sql
+RUN service postgresql start && \
+    psql -a -f init-db.sql && \
+    service postgresql stop
 
 ADD postgresql-template.conf $DIR_DB
 
@@ -419,8 +420,6 @@ RUN cd /etc/postgresql/9.3/main && \
     chmod 700 postgresql.conf && \  
     echo "envsubst < $DIR_DB/postgresql-template.conf > ./postgresql.conf"
    
-WORKDIR /docker-entrypoint-initdb.d/
-ADD init-db.sql /docker-entrypoint-initdb.d
 EXPOSE 5432
 
 # Set the default command to run when starting the container
@@ -434,6 +433,8 @@ CMD ["/usr/lib/postgresql/9.3/bin/postgres", "-D", "/var/lib/postgresql/9.3/main
 ...
 max_connections = ${max_connections}
 shared_buffers = ${shared_buffers}
+port = ${port}
+max_files_per_process=${max_files_per_process}
 ...
 ...
 ```
@@ -447,12 +448,11 @@ services:
   db:
     build: ./db
     environment:
-      - POSTGRES_DB=......
-      - POSTGRES_USER=......
-      - POSTGRES_PASSWORD=...... 
-      - PGDATA=/var/lib/postgresql/data/pgdata
+       ......
       - max_connections=500
-      - shared_buffers=256MB
+      - shared_buffers=256
+      - port=5432
+      - max_files_per_process=1200
 ```
 
 
