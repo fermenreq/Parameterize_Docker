@@ -16,7 +16,9 @@ WORKDIR $DIR_APACHE
 
 RUN cd /etc/apache2/mods-available && \
     chmod 700 mpm_prefork.conf && \
-    echo "envsubst < $DIR_APACHE/mpm_prefork-template.conf > ./mpm_prefork.conf"
+    chmod 700 mpm_worker.conf && \
+    echo "envsubst < $DIR_APACHE/mpm_prefork-template.conf > ./mpm_prefork.conf" \
+    echo "envsubst < $DIR_APACHE/mpm_worker-template.conf > ./mpm_worker.conf"
     
 EXPOSE 80
 
